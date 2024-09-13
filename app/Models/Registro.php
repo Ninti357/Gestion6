@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Registro extends Model
 {
-    protected $table = 'registros';
-    protected $fillable = ['cedula', 'Primer_nombre', 'Segundo_nombre', 'Primer_apellido',
-     'Segundo_apellido', 'Fecha_de_nacimiento', 'email'];
     use HasFactory;
+    protected $table = 'registros';
+    protected $fillable = ['cedula', 'primer_nombre', 'segundo_nombre', 'primer_apellido',
+     'segundo_apellido', 'fecha_de_nacimiento', 'email'];
 }

@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create( 'registros', function (Blueprint $table) {
             $table->id();
-            $table->integer('cedula');
-            $table->string('Primer_nombre');
-            $table->string('Segundo_nombre');
-            $table->string('Primer_Apellido');
-            $table->string('Segundo_Apellido');
+            $table->string('cedula');
+            $table->string('primer_nombre');
+            $table->string('segundo_nombre')->nullable();
+            $table->string('primer_apellido');
+            $table->string('segundo_apellido')->nullable();
             $table->date('fecha_de_nacimiento');
-            $table->string('email');
+            $table->string('email')->nuulllable();
             $table->timestamps();
         });
     }

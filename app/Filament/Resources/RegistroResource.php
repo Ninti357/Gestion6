@@ -24,13 +24,13 @@ class RegistroResource extends Resource
         return $form
             ->schema([
                 //
-                   Forms\Components\TextInput::make('Cédula') ->required(),
-                   Forms\Components\TextInput::make('Primer nombre'),
-                   Forms\Components\TextInput::make('Segundo nombre'),
-                   Forms\Components\TextInput::make('Primer apellido'),
-                   Forms\Components\TextInput::make('Segundo apellido'),
-                   Forms\Components\DatePicker::make('Fecha de nacimiento') ->required(),
-                   Forms\Components\TextInput::make('Email') ->required(),
+                   Forms\Components\TextInput::make('cedula')->required(),
+                   Forms\Components\TextInput::make('primer_nombre'),
+                   Forms\Components\TextInput::make('segundo_nombre'),
+                   Forms\Components\TextInput::make('primer_apellido'),
+                   Forms\Components\TextInput::make('segundo_apellido'),
+                   Forms\Components\DatePicker::make('fecha_de_nacimiento')->required(),
+                   Forms\Components\TextInput::make('email')->required(),
             ]);
     }
 
@@ -38,7 +38,18 @@ class RegistroResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('cedula')
+                ->searchable(),
+                Tables\Columns\TextColumn::make('primer_nombre')
+                ->searchable(),
+                Tables\Columns\TextColumn::make('segundo_nombre')
+                ->searchable(),
+                Tables\Columns\TextColumn::make('primer_apellido')
+                ->searchable(),
+                Tables\Columns\TextColumn::make('segundo_apellido')
+                ->searchable(),
+                Tables\Columns\TextColumn::make('email')
+                ->searchable(),
             ])
             ->filters([
                 //
