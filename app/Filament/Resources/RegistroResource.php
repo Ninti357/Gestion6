@@ -23,14 +23,25 @@ class RegistroResource extends Resource
     {
         return $form
             ->schema([
-                //
-                   Forms\Components\TextInput::make('cedula')->required(),
-                   Forms\Components\TextInput::make('primer_nombre'),
-                   Forms\Components\TextInput::make('segundo_nombre'),
-                   Forms\Components\TextInput::make('primer_apellido'),
-                   Forms\Components\TextInput::make('segundo_apellido'),
-                   Forms\Components\DatePicker::make('fecha_de_nacimiento')->required(),
-                   Forms\Components\TextInput::make('email')->required(),
+                Forms\Components\TextInput::make('cedula')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('primer_nombre')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('segundo_nombre')
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('primer_apellido')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('segundo_apellido')
+                    ->maxLength(255),
+                Forms\Components\DatePicker::make('fecha_de_nacimiento')
+                    ->required(),
+                Forms\Components\TextInput::make('email')
+                    ->email()
+                    ->required()
+                    ->maxLength(255),
             ]);
     }
 
@@ -39,44 +50,60 @@ class RegistroResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('cedula')
-                ->searchable(),
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('primer_nombre')
-                ->searchable(),
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('segundo_nombre')
-                ->searchable(),
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('primer_apellido')
-                ->searchable(),
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('segundo_apellido')
-                ->searchable(),
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('fecha_de_nacimiento')
+                    ->date()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('email')
-                ->searchable(),
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ForceDeleteAction::make(),
+                Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\ForceDeleteBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListRegistros::route('/'),
-            'create' => Pages\CreateRegistro::route('/create'),
-            'edit' => Pages\EditRegistro::route('/{record}/edit'),
+            'index' => Pages\ManageRegistros::route('/'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
     }
 }
