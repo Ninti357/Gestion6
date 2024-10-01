@@ -21,6 +21,11 @@ class UsersTableSeeder extends Seeder
         $user1 = User::create([
             'name' => 'Administador',
             'email' => 'admin@email.com',
+            'cedula' => '1234567890',
+            'primer_nombre' => 'Admin',
+            'segundo_nombre' => 'Admin',
+            'primer_apellido' => 'Admin',
+            'segundo_apellido' => 'Admin',
             'email_verified_at' => now(),
             'password' => Hash::make('12345678'),
             'created_at' => now(),
@@ -31,6 +36,11 @@ class UsersTableSeeder extends Seeder
         $user2 = User::create([
             'name' => 'Test Demo',
             'email' => 'test@email.com',
+            'cedula' => '1234567890',
+            'primer_nombre' => 'Test',
+            'segundo_nombre' => 'Test',
+            'primer_apellido' => 'Test',
+            'segundo_apellido' => 'Test',
             'email_verified_at' => now(),
             'password' => Hash::make('12345678'),
             'created_at' => now(),
