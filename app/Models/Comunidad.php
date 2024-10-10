@@ -35,34 +35,4 @@ class Comunidad extends Model
         return $this->belongsTo(Parroquia::class);
     }
 
-    // public function pueblos(): HasMany
-    // {
-    //     return $this->hasMany(ComunidadPueblo::class);
-    // }
-
-    public function centros(): HasManyThrough
-    {
-        return $this->hasManyThrough(Centro::class, ComunidadCentro::class, 'comunidad_id', 'id', 'id', 'centro_id');
-    }
-
-    public function centro(): BelongsTo
-    {
-        return $this->belongsTo(Centro::class);
-    }
-
-    public function pueblos(): HasManyThrough
-    {
-        return $this->hasManyThrough(Pueblo::class, ComunidadPueblo::class, 'comunidad_id', 'id', 'id', 'pueblo_id');
-    }
-
-    // public function getActivitylogOptions(): LogOptions
-    // {
-    //     return LogOptions::defaults()
-    //     ->logOnly([$this->comunidad]);
-    //     // Chain fluent methods for configuration options
-    // }
-
-
-
-
 }
