@@ -12,8 +12,11 @@ use App\Models\Comunidad;
 use App\Models\Municipio;
 use App\Models\Parroquia;
 use Filament\Tables\Table;
+use App\Models\TipoBeneficio;
 use Filament\Resources\Resource;
+use App\Models\TipoIdentificacion;
 use Illuminate\Support\Collection;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Fieldset;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -34,11 +37,12 @@ class PersonaResource extends Resource
                 Fieldset::make('Datos Personales')
                     ->schema([
                         Forms\Components\Select::make('tipo_identificacion_id')
-                            ->relationship('tipoIdentificacion', 'tipo_identificacion')
-                            ->searchable()
-                            ->preload()
-                            ->live()
-                            ->required(),
+                        ->relationship('tipoIdentificacion', 'tipo_identificacion')
+                        ->searchable()
+                        ->default(1)
+                        ->preload()
+                        ->live()
+                        ->required(),
                         Forms\Components\TextInput::make('cedula')
                             ->required()
                             ->label('Cédula')
@@ -53,20 +57,26 @@ class PersonaResource extends Resource
                             ->maxLength(255),
                         Forms\Components\TextInput::make('segundo_apellido')
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('pueblo_id')
-                            ->label('Pueblo')
-                            ->required()
-                            ->numeric(),
-                        Forms\Components\TextInput::make('genero_id')
-                            ->label('Género')
-                            ->required()
-                            ->numeric(),
+                            Forms\Components\Select::make('pueblo_id')
+                            ->relationship('pueblo', 'pueblo')
+                            ->searchable()
+                            ->preload()
+                            ->live()
+                            ->required(),
+                         Forms\Components\Select::make('genero_id')
+                            ->relationship('genero', 'genero')
+                            ->searchable()
+                            ->preload()
+                            ->live()
+                            ->required(),
                         Forms\Components\DatePicker::make('fecha_de_nacimiento')
                             ->required(),
-                        Forms\Components\TextInput::make('estado_civil_id')
-                            ->label('Estado civil')
-                            ->required()
-                            ->numeric(),
+                            Forms\Components\Select::make('estado_civil_id')
+                            ->relationship('estadoCivil', 'estado_civil')
+                            ->searchable()
+                            ->preload()
+                            ->live()
+                            ->required(),
 
                     ]),
 
