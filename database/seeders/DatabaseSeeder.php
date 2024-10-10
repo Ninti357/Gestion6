@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             EstadosCivilesTableSeeder::class,
             TiposBeneficiosTableSeeder::class,
             BeneficiosTableSeeder::class,
+            TiposIdentificacionesTableSeeder::class,
         ]);
 
         // User::factory()->create([

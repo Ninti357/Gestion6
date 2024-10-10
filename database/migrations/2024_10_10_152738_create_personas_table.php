@@ -26,6 +26,9 @@ return new class extends Migration
             $table->date('fecha_de_nacimiento');
             $table->foreignId('pueblo_id')->constrained('pueblos')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('estado_civil_id')->constrained('estados_civiles')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('estado_id')->constrained('estados')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('municipio_id')->constrained('municipios')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('parroquia_id')->constrained('parroquias')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('comunidad_id')->constrained('comunidades')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();

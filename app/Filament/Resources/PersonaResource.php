@@ -2,17 +2,24 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PersonaResource\Pages;
-use App\Filament\Resources\PersonaResource\RelationManagers;
-use App\Models\Persona;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Persona;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
+use Filament\Forms\Form;
+use App\Models\Comunidad;
+use App\Models\Municipio;
+use App\Models\Parroquia;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Illuminate\Support\Collection;
+use Filament\Forms\Components\Fieldset;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Filament\Resources\PersonaResource\Pages;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\PersonaResource\RelationManagers;
 
 class PersonaResource extends Resource
 {
@@ -24,48 +31,102 @@ class PersonaResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('tipo_identificacion_id')
-                    ->label('Tipo de beneficio')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('cedula')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('primer_nombre')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('segundo_nombre')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('primer_apellido')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('segundo_apellido')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('telefono')
-                    ->tel()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('celular')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('genero_id')
-                    ->label('Género')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\DatePicker::make('fecha_de_nacimiento')
-                    ->required(),
-                Forms\Components\TextInput::make('pueblo_id')
-                ->label('Pueblo')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('estado_civil_id')
-                ->label('Estado civil')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('comunidad_id')
-                ->label('Comunidad')
-                    ->required()
-                    ->numeric(),
+                Fieldset::make('Datos Personales')
+                    ->schema([
+                        Forms\Components\Select::make('tipo_identificacion_id')
+                            ->relationship('tipoIdentificacion', 'tipo_identificacion')
+                            ->searchable()
+                            ->preload()
+                            ->live()
+                            ->required(),
+                        Forms\Components\TextInput::make('cedula')
+                            ->required()
+                            ->label('Cédula')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('primer_nombre')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('segundo_nombre')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('primer_apellido')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('segundo_apellido')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('pueblo_id')
+                            ->label('Pueblo')
+                            ->required()
+                            ->numeric(),
+                        Forms\Components\TextInput::make('genero_id')
+                            ->label('Género')
+                            ->required()
+                            ->numeric(),
+                        Forms\Components\DatePicker::make('fecha_de_nacimiento')
+                            ->required(),
+                        Forms\Components\TextInput::make('estado_civil_id')
+                            ->label('Estado civil')
+                            ->required()
+                            ->numeric(),
+
+                    ]),
+
+                Fieldset::make('Contacto')
+                    ->schema([
+                        Forms\Components\TextInput::make('email')
+                            ->email()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('telefono')
+                            ->tel()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('celular')
+                            ->maxLength(255),
+
+                    ]),
+
+                Fieldset::make('Dirección')
+                    ->schema([
+                        Forms\Components\Select::make('estado_id')
+                            ->relationship('estado', 'estado')
+                            ->searchable()
+                            ->preload()
+                            ->live()
+                            ->afterStateUpdated(function (Set $set) {
+                                $set('municipio_id', null);
+                                $set('parroquia_id', null);
+                            })
+                            ->required(),
+
+                        Forms\Components\Select::make('municipio_id')
+                            ->label('Municipio')
+                            ->options(fn(Get $get): Collection => Municipio::query()
+                                ->where('estado_id', $get('estado_id'))
+                                ->pluck('municipio', 'id'))
+                            ->searchable()
+                            ->preload()
+                            ->live()
+                            ->afterStateUpdated(fn(Set $set) => $set('parroquia_id', null))
+                            ->required(),
+
+                        Forms\Components\Select::make('parroquia_id')
+                            ->label('Parroquia')
+                            ->options(fn(Get $get): Collection => Parroquia::query()
+                                ->where('municipio_id', $get('municipio_id'))
+                                ->pluck('parroquia', 'id'))
+                            ->searchable()
+                            ->preload()
+                            ->live()
+                            ->required(),
+
+                        Forms\Components\Select::make('comunidad_id')
+                            ->label('Comunidad')
+                            ->options(fn(Get $get): Collection => Comunidad::query()
+                                ->where('parroquia_id', $get('parroquia_id'))
+                                ->pluck('comunidad', 'id'))
+                            ->searchable()
+                            ->preload()
+                            ->live()
+                            ->required(),
+                    ]),
             ]);
     }
 
