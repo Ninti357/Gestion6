@@ -27,6 +27,7 @@ class BeneficioResource extends Resource
             ->schema([
                 Select::make('tipo_beneficio_id')
                     ->label('Tipo de beneficio')
+                    ->required()
                     ->options(TipoBeneficio::all()->pluck('tipo_beneficio', 'id'))
                     ->searchable(),
                 Forms\Components\TextInput::make('beneficio')

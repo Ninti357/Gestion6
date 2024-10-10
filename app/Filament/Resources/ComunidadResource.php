@@ -44,6 +44,7 @@ class ComunidadResource extends Resource
                     ->required(),
 
                 Forms\Components\Select::make('municipio_id')
+                    ->label('Municipio')
                     ->options(fn(Get $get): Collection => Municipio::query()
                         ->where('estado_id', $get('estado_id'))
                         ->pluck('municipio', 'id'))
@@ -54,6 +55,7 @@ class ComunidadResource extends Resource
                     ->required(),
 
                 Forms\Components\Select::make('parroquia_id')
+                    ->label('Parroquia')
                     ->options(fn(Get $get): Collection => Parroquia::query()
                         ->where('municipio_id', $get('municipio_id'))
                         ->pluck('parroquia', 'id'))
