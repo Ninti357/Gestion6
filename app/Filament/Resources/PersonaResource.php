@@ -69,7 +69,7 @@ class PersonaResource extends Resource
                             ->preload()
                             ->live()
                             ->required(),
-                        Forms\Components\DatePicker::make('fecha_de_nacimiento')
+                        Forms\Components\DatePicker::make('fecha_nacimiento')
                             ->required(),
                             Forms\Components\Select::make('estado_civil_id')
                             ->relationship('estadoCivil', 'estado_civil')

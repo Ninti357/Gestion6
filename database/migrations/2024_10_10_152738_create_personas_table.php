@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('telefono')->nullable();
             $table->string('celular')->nullable();
             $table->foreignId('genero_id')->constrained('generos')->onUpdate('cascade')->onDelete('cascade');
-            $table->date('fecha_de_nacimiento');
+            $table->date('fecha_nacimiento');
             $table->foreignId('pueblo_id')->constrained('pueblos')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('estado_civil_id')->constrained('estados_civiles')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('estado_id')->constrained('estados')->onUpdate('cascade')->onDelete('cascade');
