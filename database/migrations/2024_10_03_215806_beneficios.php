@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('beneficiarios', function (Blueprint $table) {
+        Schema::create('beneficios', function(Blueprint $table){
             $table->id();
-            $table->string('cedula');
-            $table->string('primer_nombre');
-            $table->string('segundo_nombre')->nullable();
-            $table->string('primer_apellido');
-            $table->string('segundo_apellido')->nullable();
-            $table->string('email')->nullable();
+            $table->string('beneficio');
+            $table->foreignId('tipo_beneficio_id')->constrained('tipos_beneficios')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -29,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('beneficiarios');
+        Schema::dropIfExists('beneficios');
     }
 };

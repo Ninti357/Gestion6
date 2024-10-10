@@ -24,6 +24,9 @@ class DatabaseSeeder extends Seeder
             PueblosTableSeeder::class,
             VenezuelaTableSeeder::class,
             ComunidadesTableSeeder::class,
+            EstadosCivilesTableSeeder::class,
+            TiposBeneficiosTableSeeder::class,
+            BeneficiosTableSeeder::class,
         ]);
 
         // User::factory()->create([

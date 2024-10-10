@@ -11,14 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('beneficiarios', function (Blueprint $table) {
+        Schema::create( 'tipos_beneficios', function(Blueprint $table){
             $table->id();
-            $table->string('cedula');
-            $table->string('primer_nombre');
-            $table->string('segundo_nombre')->nullable();
-            $table->string('primer_apellido');
-            $table->string('segundo_apellido')->nullable();
-            $table->string('email')->nullable();
+            $table->string('tipo_beneficio');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -29,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('beneficiarios');
+        Schema::dropIfExists('tipo_beneficios');
     }
 };
