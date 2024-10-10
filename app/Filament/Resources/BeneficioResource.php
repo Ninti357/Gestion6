@@ -2,16 +2,18 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\BeneficioResource\Pages;
-use App\Filament\Resources\BeneficioResource\RelationManagers;
-use App\Models\Beneficio;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Forms\Form;
+use App\Models\Beneficio;
 use Filament\Tables\Table;
+use App\Models\TipoBeneficio;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\BeneficioResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\BeneficioResource\RelationManagers;
 
 class BeneficioResource extends Resource
 {
@@ -23,12 +25,13 @@ class BeneficioResource extends Resource
     {
         return $form
             ->schema([
+                Select::make('tipo_beneficio_id')
+                    ->label('Tipo de beneficio')
+                    ->options(TipoBeneficio::all()->pluck('tipo_beneficio', 'id'))
+                    ->searchable(),
                 Forms\Components\TextInput::make('beneficio')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('tipo_beneficio_id')
-                    ->required()
-                    ->numeric(),
             ]);
     }
 
@@ -38,13 +41,13 @@ class BeneficioResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('beneficio')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('tipo_beneficio_id')
-                    ->numeric()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('tipo.tipo_beneficio')
+                ->numeric()
+                ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
@@ -56,6 +59,10 @@ class BeneficioResource extends Resource
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\SelectFilter::make('tipo_beneficio_id')
+                ->relationship('tipo', 'tipo_beneficio')
+                ->searchable()
+                ->preload(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
