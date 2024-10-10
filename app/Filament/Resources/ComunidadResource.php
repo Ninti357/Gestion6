@@ -22,6 +22,10 @@ class ComunidadResource extends Resource
 {
     protected static ?string $model = Comunidad::class;
 
+    // protected static ?string $navigationGroup = 'Administración';
+
+    protected static ?string $navigationLabel = 'Comunidades';
+
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
@@ -38,6 +42,7 @@ class ComunidadResource extends Resource
                         $set('parroquia_id', null);
                     })
                     ->required(),
+
                 Forms\Components\Select::make('municipio_id')
                     ->options(fn(Get $get): Collection => Municipio::query()
                         ->where('estado_id', $get('estado_id'))
@@ -47,6 +52,7 @@ class ComunidadResource extends Resource
                     ->live()
                     ->afterStateUpdated(fn(Set $set) => $set('parroquia_id', null))
                     ->required(),
+
                 Forms\Components\Select::make('parroquia_id')
                     ->options(fn(Get $get): Collection => Parroquia::query()
                         ->where('municipio_id', $get('municipio_id'))
