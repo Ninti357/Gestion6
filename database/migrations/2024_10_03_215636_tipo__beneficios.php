@@ -15,7 +15,7 @@ return new class extends Migration
 
             $table->id();
             $table->string('Tipo_Beneficio');
-            $table->id('Beneficios');
+            $table->string('Beneficios');
             $table->timestamps();
         }); 
     }
