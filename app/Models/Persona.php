@@ -72,5 +72,6 @@ class Persona extends Model
     {
         return $this->belongsTo(TipoIdentificacion::class);
     }
+    
 
 }

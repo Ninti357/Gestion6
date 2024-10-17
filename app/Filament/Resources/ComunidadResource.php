@@ -66,7 +66,7 @@ class ComunidadResource extends Resource
 
                 Forms\Components\TextInput::make('comunidad')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(20),
             ]);
     }
 

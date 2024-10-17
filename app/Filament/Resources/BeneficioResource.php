@@ -32,7 +32,7 @@ class BeneficioResource extends Resource
                     ->searchable(),
                 Forms\Components\TextInput::make('beneficio')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(20),
             ]);
     }
 

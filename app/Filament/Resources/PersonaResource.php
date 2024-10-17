@@ -44,19 +44,20 @@ class PersonaResource extends Resource
                         ->live()
                         ->required(),
                         Forms\Components\TextInput::make('cedula')
+                            ->maxLength(10)
+                            ->numeric()
                             ->required()
-                            ->label('Cédula')
-                            ->maxLength(255),
+                            ->label('Cédula'),
                         Forms\Components\TextInput::make('primer_nombre')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(20),
                         Forms\Components\TextInput::make('segundo_nombre')
-                            ->maxLength(255),
+                            ->maxLength(20),
                         Forms\Components\TextInput::make('primer_apellido')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(20),
                         Forms\Components\TextInput::make('segundo_apellido')
-                            ->maxLength(255),
+                            ->maxLength(20),
                             Forms\Components\Select::make('pueblo_id')
                             ->relationship('pueblo', 'pueblo')
                             ->searchable()
@@ -84,12 +85,14 @@ class PersonaResource extends Resource
                     ->schema([
                         Forms\Components\TextInput::make('email')
                             ->email()
-                            ->maxLength(255),
+                            ->maxLength(50),
                         Forms\Components\TextInput::make('telefono')
+                            ->numeric()
                             ->tel()
-                            ->maxLength(255),
+                            ->maxLength(11),
                         Forms\Components\TextInput::make('celular')
-                            ->maxLength(255),
+                            ->numeric()
+                            ->maxLength(11),
 
                     ]),
 
@@ -158,6 +161,7 @@ class PersonaResource extends Resource
                 Tables\Columns\TextColumn::make('segundo_apellido')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('telefono')
                     ->searchable(),

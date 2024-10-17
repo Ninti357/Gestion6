@@ -25,7 +25,7 @@ class TipoBeneficioResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('tipo_beneficio')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(20),
             ]);
     }
 
