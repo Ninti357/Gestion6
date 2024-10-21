@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('segundo_nombre')->nullable();
             $table->string('primer_apellido');
             $table->string('segundo_apellido')->nullable();
-            $table->string('email')->nullable();
+            $table->string('email')->nullable() ->unique();
             $table->string('telefono')->nullable();
             $table->string('celular')->nullable();
             $table->foreignId('genero_id')->constrained('generos')->onUpdate('cascade')->onDelete('cascade');

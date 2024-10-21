@@ -100,17 +100,25 @@ class ComunidadResource extends Resource
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\SelectFilter::make('Estado')
+                ->relationship('estado', 'estado')
+                ->multiple(), 
+                Tables\Filters\SelectFilter::make('Municipio')
+                ->relationship('municipio', 'municipio')
+                ->multiple(),
+                Tables\Filters\SelectFilter::make('Parroquia')
+                ->relationship('parroquia', 'parroquia')
+                ->multiple(),
+
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\ForceDeleteAction::make(),
+                Tables\Actions\DeleteAction::make()->label('Inhabilitar'),
                 Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ]);

@@ -37,6 +37,7 @@ class PersonaResource extends Resource
                 Fieldset::make('Datos Personales')
                     ->schema([
                         Forms\Components\Select::make('tipo_identificacion_id')
+                        ->label('Tipo de identificación')
                         ->relationship('tipoIdentificacion', 'tipo_identificacion')
                         ->searchable()
                         ->default(1)
@@ -44,20 +45,30 @@ class PersonaResource extends Resource
                         ->live()
                         ->required(),
                         Forms\Components\TextInput::make('cedula')
-                            ->maxLength(10)
+                            ->maxLength(8)
+                            ->minLength(8)
+                            ->mask('99999999')
                             ->numeric()
                             ->required()
                             ->label('Cédula'),
                         Forms\Components\TextInput::make('primer_nombre')
                             ->required()
+                            ->autocapitalize()
+                            ->minLength(2)
                             ->maxLength(20),
                         Forms\Components\TextInput::make('segundo_nombre')
-                            ->maxLength(20),
+                            ->minLength(2)
+                            ->maxLength(20)
+                            ->autocapitalize(),
                         Forms\Components\TextInput::make('primer_apellido')
                             ->required()
-                            ->maxLength(20),
+                            ->minLength(4)
+                            ->maxLength(20)
+                            ->autocapitalize(),
                         Forms\Components\TextInput::make('segundo_apellido')
-                            ->maxLength(20),
+                            ->maxLength(20)
+                            ->minLength(4)
+                            ->autocapitalize(),
                             Forms\Components\Select::make('pueblo_id')
                             ->relationship('pueblo', 'pueblo')
                             ->searchable()
@@ -84,14 +95,18 @@ class PersonaResource extends Resource
                 Fieldset::make('Contacto')
                     ->schema([
                         Forms\Components\TextInput::make('email')
+                            ->unique()
+                            ->placeholder('example@gmail.com')
                             ->email()
                             ->maxLength(50),
                         Forms\Components\TextInput::make('telefono')
+                            ->mask('99999999999')
                             ->numeric()
                             ->tel()
                             ->maxLength(11),
                         Forms\Components\TextInput::make('celular')
                             ->numeric()
+                            ->mask('99999999999')
                             ->maxLength(11),
 
                     ]),
@@ -200,14 +215,12 @@ class PersonaResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\ForceDeleteAction::make(),
+                Tables\Actions\DeleteAction::make()->label('inhabilitar'),
                 Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ]);

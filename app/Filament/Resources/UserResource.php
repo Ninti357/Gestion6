@@ -49,6 +49,7 @@ class UserResource extends Resource
                     Forms\Components\TextInput::make('email')
                     ->label('Correo electrónico')
                     ->placeholder('example@gmail.com')
+                    ->unique()
                     ->email()
                     ->required()
                     ->maxLength(50),

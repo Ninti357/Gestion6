@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create( 'tipos_beneficios', function(Blueprint $table){
             $table->id();
-            $table->string('tipo_beneficio');
+            $table->string('tipo_beneficio')->unique();
             $table->timestamps();
             $table->softDeletes();
         });

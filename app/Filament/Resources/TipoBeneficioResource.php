@@ -25,6 +25,7 @@ class TipoBeneficioResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('tipo_beneficio')
                     ->autocapitalize()
+                    ->unique()
                     ->minLength(4)
                     ->required()
                     ->maxLength(20),

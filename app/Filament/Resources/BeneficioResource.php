@@ -27,12 +27,15 @@ class BeneficioResource extends Resource
             ->schema([
                 Select::make('tipo_beneficio_id')
                     ->label('Tipo de beneficio')
+                    ->unique()
                     ->required()
                     ->options(TipoBeneficio::all()->pluck('tipo_beneficio', 'id'))
                     ->searchable(),
                 Forms\Components\TextInput::make('beneficio')
+                    ->autocapitalize()
                     ->required()
-                    ->maxLength(20),
+                    ->maxLength(20)
+                    ->minLength(4),
             ]);
     }
 
@@ -61,14 +64,14 @@ class BeneficioResource extends Resource
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
                 Tables\Filters\SelectFilter::make('tipo_beneficio_id')
+                ->label('Tipo de beneficio')
                 ->relationship('tipo', 'tipo_beneficio')
                 ->searchable()
                 ->preload(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\ForceDeleteAction::make(),
+                Tables\Actions\DeleteAction::make()->label('Inhabilitar'),
                 Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([

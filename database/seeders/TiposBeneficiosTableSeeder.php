@@ -29,7 +29,7 @@ class TiposBeneficiosTableSeeder extends Seeder
             ],
             [
                 'id' => 3,
-                'tipo_beneficio' => 'Trasporte',
+                'tipo_beneficio' => 'Transporte',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

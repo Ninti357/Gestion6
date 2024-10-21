@@ -172,12 +172,6 @@ class BeneficiosTableSeeder extends Seeder
             ],
             [
                 'tipo_beneficio_id' => 4,
-                'beneficio' => 'Mobilarios',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'tipo_beneficio_id' => 4,
                 'beneficio' => 'Remodelacion',
                 'created_at' => now(),
                 'updated_at' => now(),
