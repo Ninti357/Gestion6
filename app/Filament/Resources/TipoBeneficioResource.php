@@ -24,6 +24,8 @@ class TipoBeneficioResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('tipo_beneficio')
+                    ->autocapitalize()
+                    ->minLength(4)
                     ->required()
                     ->maxLength(20),
             ]);
@@ -53,8 +55,7 @@ class TipoBeneficioResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\ForceDeleteAction::make(),
+                Tables\Actions\DeleteAction::make()->label('Inhabilitar'),
                 Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([

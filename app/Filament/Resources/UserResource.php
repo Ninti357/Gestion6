@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Forms\Components\Select;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
@@ -17,6 +18,7 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
+    protected static ?string $navigationLabel = 'Usuarios';
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
@@ -25,30 +27,48 @@ class UserResource extends Resource
             ->schema([
 
                 Forms\Components\TextInput::make('name')
+                ->label('Nombre de usuario')
                 ->required()
-                ->maxLength(255),
+                ->maxLength(20),
                 Forms\Components\TextInput::make('primer_nombre')
+                    ->autocapitalize()
                     ->required()
-                    ->maxLength(255),
+                    ->minLength(2)
+                    ->maxLength(20),
                 Forms\Components\TextInput::make('segundo_nombre')
-                    ->maxLength(255),
+                    ->autocapitalize()
+                    ->minLength(2)
+                    ->maxLength(20),
                 Forms\Components\TextInput::make('primer_apellido')
+                    ->autocapitalize()
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(20),
                 Forms\Components\TextInput::make('segundo_apellido')
-                    ->maxLength(255),
+                    ->autocapitalize()
+                    ->maxLength(20),
                     Forms\Components\TextInput::make('email')
+                    ->label('Correo electrónico')
+                    ->placeholder('example@gmail.com')
                     ->email()
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(50),
+                    Select::make('Tipo de documento')
+                    ->options([
+                        'Nacional' => 'V',
+                        'Extranjero' => 'E'
+                    ])
+                    ->native(false),
                 Forms\Components\TextInput::make('cedula')
+                    ->mask('99999999')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\DatePicker::make('fecha_de_nacimiento'),
+                    ->minLength(8)
+                    ->maxLength(8),
                 Forms\Components\TextInput::make('password')
+                    ->label('Contraseña')
                     ->password()
+                    ->revealable()
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(50),
                 Forms\Components\Select::make('roles')
                     ->relationship('roles', 'name')
                     ->multiple()
@@ -96,8 +116,7 @@ class UserResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\ForceDeleteAction::make(),
+                Tables\Actions\DeleteAction::make()->label('Inhabilitar'),
                 Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
