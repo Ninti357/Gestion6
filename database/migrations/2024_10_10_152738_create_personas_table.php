@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use BladeUI\Icons\Factory;
 
 return new class extends Migration
 {
@@ -11,6 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+
         Schema::create('personas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('tipo_identificacion_id')->constrained('tipos_identificaciones')->onUpdate('cascade')->onDelete('cascade');
