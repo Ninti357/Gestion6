@@ -27,7 +27,6 @@ class BeneficioResource extends Resource
             ->schema([
                 Select::make('tipo_beneficio_id')
                     ->label('Tipo de beneficio')
-                    ->unique()
                     ->required()
                     ->options(TipoBeneficio::all()->pluck('tipo_beneficio', 'id'))
                     ->searchable(),

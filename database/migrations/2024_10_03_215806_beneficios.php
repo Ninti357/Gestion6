@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('beneficios', function(Blueprint $table){
             $table->id();
-            $table->string('beneficio')->unique();
+            $table->string('beneficio');
             $table->foreignId('tipo_beneficio_id')->constrained('tipos_beneficios')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
