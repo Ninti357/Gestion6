@@ -17,6 +17,8 @@ class AsignacionBeneficiosResource extends Resource
 {
     protected static ?string $model = AsignacionBeneficios::class;
 
+    protected static ?string $navigationLabel = 'Asignación de beneficios';
+
     protected static ?string $navigationIcon = 'heroicon-s-gift';
 
     public static function form(Form $form): Form
@@ -72,6 +74,10 @@ class AsignacionBeneficiosResource extends Resource
                     ->numeric(),
             ]);
     }
+
+
+
+
 
     public static function table(Table $table): Table
     {
@@ -138,8 +144,8 @@ class AsignacionBeneficiosResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
                 Tables\Actions\ForceDeleteAction::make(),
+                Tables\Actions\DeleteAction::make(),
                 Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([

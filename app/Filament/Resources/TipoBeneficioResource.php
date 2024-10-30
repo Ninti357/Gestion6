@@ -17,6 +17,7 @@ class TipoBeneficioResource extends Resource
 {
     protected static ?string $model = TipoBeneficio::class;
 
+    protected static ?string $navigationLabel = 'Tipos de beneficios';
     protected static ?string $navigationIcon = 'heroicon-s-squares-2x2';
 
     public static function form(Form $form): Form
