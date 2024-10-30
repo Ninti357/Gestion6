@@ -25,7 +25,7 @@ class ComunidadResource extends Resource
     // protected static ?string $navigationGroup = 'Administración';
 
     protected static ?string $navigationLabel = 'Comunidades';
-
+    protected static ?string $label = 'Comunidades';
     protected static ?string $navigationIcon = 'heroicon-s-home';
 
     public static function form(Form $form): Form
@@ -102,7 +102,7 @@ class ComunidadResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
                 Tables\Filters\SelectFilter::make('Estado')
                 ->relationship('estado', 'estado')
-                ->multiple(), 
+                ->multiple(),
                 Tables\Filters\SelectFilter::make('Municipio')
                 ->relationship('municipio', 'municipio')
                 ->multiple(),

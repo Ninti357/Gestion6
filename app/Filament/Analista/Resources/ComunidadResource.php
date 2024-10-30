@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Analista\Resources;
 
-use App\Filament\Resources\TipoBeneficioResource\Pages;
-use App\Filament\Resources\TipoBeneficioResource\RelationManagers;
-use App\Models\TipoBeneficio;
+use App\Filament\Analista\Resources\ComunidadResource\Pages;
+use App\Filament\Analista\Resources\ComunidadResource\RelationManagers;
+use App\Models\Comunidad;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,24 +13,30 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class TipoBeneficioResource extends Resource
+class ComunidadResource extends Resource
 {
-    protected static ?string $model = TipoBeneficio::class;
+    protected static ?string $model = Comunidad::class;
 
-    protected static ?string $navigationLabel = 'Tipos de beneficios';
-    protected static ?string $label = 'Tipos de beneficios';
-    protected static ?string $navigationIcon = 'heroicon-s-squares-2x2';
+    protected static ?string $navigationLabel = 'Comunidades';
+    protected static ?string $label = 'Comunidades';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('tipo_beneficio')
-                    ->autocapitalize()
-                    ->unique()
-                    ->minLength(4)
+                Forms\Components\Select::make('estado_id')
+                    ->relationship('estado', 'id')
+                    ->required(),
+                Forms\Components\Select::make('municipio_id')
+                    ->relationship('municipio', 'id')
+                    ->required(),
+                Forms\Components\Select::make('parroquia_id')
+                    ->relationship('parroquia', 'id')
+                    ->required(),
+                Forms\Components\TextInput::make('comunidad')
                     ->required()
-                    ->maxLength(20),
+                    ->maxLength(255),
             ]);
     }
 
@@ -38,12 +44,21 @@ class TipoBeneficioResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('tipo_beneficio')
+                Tables\Columns\TextColumn::make('estado.estado')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('municipio.municipio')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('parroquia.parroquia')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('comunidad')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: false),
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
@@ -58,7 +73,8 @@ class TipoBeneficioResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make()->label('Inhabilitar'),
+                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ForceDeleteAction::make(),
                 Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
@@ -73,7 +89,7 @@ class TipoBeneficioResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageTipoBeneficios::route('/'),
+            'index' => Pages\ManageComunidads::route('/'),
         ];
     }
 

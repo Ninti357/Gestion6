@@ -18,6 +18,8 @@ class AsignacionBeneficiosResource extends Resource
     protected static ?string $model = AsignacionBeneficios::class;
 
     protected static ?string $navigationIcon = 'heroicon-s-gift';
+    protected static ?string $navigationLabel = 'Asignación de beneficios';
+    protected static ?string $label = 'Asignación de beneficios';
 
     public static function form(Form $form): Form
     {
