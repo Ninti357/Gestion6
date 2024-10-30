@@ -18,6 +18,20 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
+
+use BezhanSalleh\PanelSwitch\PanelSwitch;
+
+PanelSwitch::configureUsing(function (PanelSwitch $panelSwitch) {
+    $panelSwitch->modalWidth('sm');
+    $panelSwitch->modalHeading('Paneles');
+    $panelSwitch->icons([
+        'admin' => 'heroicon-o-eye',
+        'analista' => 'heroicon-o-user',
+    ]);
+});
+
+
+
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
