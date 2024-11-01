@@ -63,15 +63,15 @@ class Persona extends Model
         return $this->belongsTo(Comunidad::class);
     }
 
-    public function estadoCivil(): BelongsTo
+    public function estado_civil(): BelongsTo
     {
         return $this->belongsTo(EstadoCivil::class);
     }
 
-    public function tipoIdentificacion(): BelongsTo
+    public function tipo_identificacion(): BelongsTo
     {
         return $this->belongsTo(TipoIdentificacion::class);
     }
-    
+
 
 }

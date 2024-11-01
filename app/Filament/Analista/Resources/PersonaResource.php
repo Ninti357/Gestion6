@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class PersonaResource extends Resource
 {
@@ -77,7 +78,7 @@ class PersonaResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('tipoIdentificacion.id')
+                Tables\Columns\TextColumn::make('tipo_identificacion.tipo_identificacion')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('cedula')
@@ -96,28 +97,28 @@ class PersonaResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('celular')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('genero.id')
+                Tables\Columns\TextColumn::make('genero.genero')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('fecha_nacimiento')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('pueblo.id')
+                Tables\Columns\TextColumn::make('pueblo.pueblo')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('estadoCivil.id')
+                Tables\Columns\TextColumn::make('estado_civil.estado_civil')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('estado.id')
+                Tables\Columns\TextColumn::make('estado.estado')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('municipio.id')
+                Tables\Columns\TextColumn::make('municipio.municipio')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('parroquia.id')
+                Tables\Columns\TextColumn::make('parroquia.parroquia')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('comunidad.id')
+                Tables\Columns\TextColumn::make('comunidad.comunidad')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -145,6 +146,7 @@ class PersonaResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    ExportBulkAction::make(),
                     Tables\Actions\ForceDeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
