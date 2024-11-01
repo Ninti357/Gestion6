@@ -15,7 +15,7 @@ return new class extends Migration
 
         Schema::create('personas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tipo_identificacion_id')->constrained('tipos_identificaciones')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('tipoidentificacion_id')->constrained('tipos_identificaciones')->onUpdate('cascade')->onDelete('cascade');
             $table->string('cedula');
             $table->string('primer_nombre');
             $table->string('segundo_nombre')->nullable();
@@ -27,7 +27,7 @@ return new class extends Migration
             $table->foreignId('genero_id')->constrained('generos')->onUpdate('cascade')->onDelete('cascade');
             $table->date('fecha_nacimiento');
             $table->foreignId('pueblo_id')->constrained('pueblos')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('estado_civil_id')->constrained('estados_civiles')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('estadocivil_id')->constrained('estados_civiles')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('estado_id')->constrained('estados')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('municipio_id')->constrained('municipios')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('parroquia_id')->constrained('parroquias')->onUpdate('cascade')->onDelete('cascade');

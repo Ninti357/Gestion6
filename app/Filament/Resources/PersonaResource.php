@@ -163,7 +163,7 @@ class PersonaResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('tipo_identificacion.tipo_identificacion')
+                Tables\Columns\TextColumn::make('tipoidentificacion.tipoidentificacion')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('cedula')
@@ -192,7 +192,7 @@ class PersonaResource extends Resource
                 Tables\Columns\TextColumn::make('pueblo.pueblo')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('estado_civil.estado_civil')
+                Tables\Columns\TextColumn::make('estadocivil.estadocivil')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('comunidad.comunidad')
