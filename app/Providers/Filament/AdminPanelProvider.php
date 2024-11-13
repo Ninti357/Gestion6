@@ -30,7 +30,8 @@ PanelSwitch::configureUsing(function (PanelSwitch $panelSwitch) {
     $panelSwitch->modalHeading('Paneles');
     $panelSwitch->icons([
         'admin' => 'heroicon-o-eye',
-        'analista' => 'heroicon-o-user',
+        'analista' => 'heroicon-o-user-circle',
+        'director' => 'heroicon-m-academic-cap',
     ]);
 });
 
