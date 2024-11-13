@@ -25,6 +25,7 @@ class DirectorPanelProvider extends PanelProvider
         return $panel
             ->id('director')
             ->path('director')
+            ->login()
             ->colors([
                 'primary' => Color::Purple,
             ])
