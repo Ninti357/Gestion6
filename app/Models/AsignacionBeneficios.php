@@ -14,23 +14,9 @@ class AsignacionBeneficios extends Model
 
     protected $table = 'asignacion_beneficios';
     protected $fillable = [
-        'tipo_identificacion_id',
-        'cedula',
-        'primer_nombre',
-        'segundo_nombre',
-        'primer_apellido',
-        'segundo_apellido',
-        'email',
-        'telefono',
-        'celular',
-        'genero_id',
-        'fecha_nacimiento',
-        'pueblo_id',
-        'estado_civil_id',
-        'estado_id',
-        'municipio_id',
-        'parroquia_id',
-        'comunidad_id',
+        'persona_id',
+        'tipo_beneficio_id',
+        'beneficio_id',
     ];
     public function genero(): BelongsTo
     {
