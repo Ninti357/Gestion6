@@ -23,6 +23,9 @@ class Beneficio extends Model
     {
         return $this->belongsTo(TipoBeneficio::class, 'tipo_beneficio_id');
     }
-
+    public function AsignacionBeneficios(): BelongsTo
+    {
+        return $this->belongsTo(AsignacionBeneficios::class);
+    }
 
 }

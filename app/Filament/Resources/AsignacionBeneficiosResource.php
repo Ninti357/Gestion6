@@ -5,13 +5,23 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\AsignacionBeneficiosResource\Pages;
 use App\Filament\Resources\AsignacionBeneficiosResource\RelationManagers;
 use App\Models\AsignacionBeneficios;
+use App\Models\Beneficio;
+use App\Models\TipoBeneficio;
+use App\Models\Persona;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Fieldset;
+use Illuminate\Support\Collection;
 use Filament\Resources\Resource;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class AsignacionBeneficiosResource extends Resource
 {
@@ -24,34 +34,46 @@ class AsignacionBeneficiosResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('persona_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('tipo_beneficio_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('beneficio_id')
-                    ->required()
-                    ->numeric(),
-            ]);
+        ->schema( [
+            Forms\Components\Select::make('tipo_beneficio_id')
+                ->label('Tipo de identificación')
+                ->relationship('tipoBeneficio', 'tipo_beneficio')
+                ->searchable()
+                ->preload()
+                ->live()
+                ->required(),
+
+            Forms\Components\Select::make('beneficio')
+                ->label('Beneficio')
+                ->relationship('beneficio', 'beneficio')
+                ->searchable()
+                ->preload()
+                ->live()
+                ->required(),
+
+                Forms\Components\Select::make('persona_id')
+                ->label('Persona')
+                ->relationship('Persona', 'primer_nombre')
+                ->searchable()
+                ->preload()
+                ->live()
+                ->required(),
+
+        ]);
+
     }
-
-
-
-
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('persona_id')
+                Tables\Columns\TextColumn::make('tipo_beneficio.tipo_beneficio')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('tipo_beneficio_id')
+                Tables\Columns\TextColumn::make('beneficio.beneficio')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('beneficio_id')
+                Tables\Columns\TextColumn::make('persona.persona')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -72,15 +94,15 @@ class AsignacionBeneficiosResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\ForceDeleteAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()->label('inhabilitar'),
                 Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+                Tables\Actions\DeleteBulkAction::make(),
+                ExportBulkAction::make(),
+                Tables\Actions\RestoreBulkAction::make(),
+
                 ]),
             ]);
     }

@@ -72,6 +72,9 @@ class Persona extends Model
     {
         return $this->belongsTo(TipoIdentificacion::class);
     }
-
+    public function AsignacionBeneficios(): BelongsTo
+    {
+        return $this->belongsTo(AsignacionBeneficios::class);
+    }
 
 }

@@ -14,48 +14,22 @@ class AsignacionBeneficios extends Model
 
     protected $table = 'asignacion_beneficios';
     protected $fillable = [
-        'persona_id',
+
         'tipo_beneficio_id',
         'beneficio_id',
+        'persona_id',
     ];
-    public function genero(): BelongsTo
+    public function tipoBeneficio(): BelongsTo
     {
-        return $this->belongsTo(Genero::class);
+        return $this->belongsTo(TipoBeneficio::class);
     }
-
-    public function pueblo(): BelongsTo
+    public function beneficio(): BelongsTo
     {
-        return $this->belongsTo(Pueblo::class);
+        return $this->belongsTo(Beneficio::class);
     }
-
-    public function estado(): BelongsTo
+ 	public function persona(): BelongsTo
     {
-        return $this->belongsTo(Estado::class);
-    }
-
-    public function municipio(): BelongsTo
-    {
-        return $this->belongsTo(Municipio::class);
-    }
-
-    public function parroquia(): BelongsTo
-    {
-        return $this->belongsTo(Parroquia::class);
-    }
-
-    public function comunidad(): BelongsTo
-    {
-        return $this->belongsTo(Comunidad::class);
-    }
-
-    public function estadoCivil(): BelongsTo
-    {
-        return $this->belongsTo(EstadoCivil::class);
-    }
-
-    public function tipoIdentificacion(): BelongsTo
-    {
-        return $this->belongsTo(TipoIdentificacion::class);
+        return $this->belongsTo(Persona::class);
     }
 
 

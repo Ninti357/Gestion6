@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Parroquia extends Model
 {
@@ -13,14 +14,14 @@ class Parroquia extends Model
     protected $table = 'parroquias';
 
     protected $fillable = ['parroquia', 'municipio_id'];
-    
+
     public $timestamps = false;
 
     public function municipio(): BelongsTo
     {
         return $this->belongsTo(Municipio::class);
     }
-    
+
     public function parroquiaEstado(): HasOneThrough
     {
         return $this->hasOneThrough(Parroquia::class, Municipio::class);

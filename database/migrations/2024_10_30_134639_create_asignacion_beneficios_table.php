@@ -14,9 +14,9 @@ return new class extends Migration
     {
         Schema::create('asignacion_beneficios', function (Blueprint $table) {
             $table->id();
-            $table->string('persona_id');
-            $table->string('tipo_beneficio_id');
-            $table->string('beneficio_id');
+            $table->foreignId('tipo_beneficio_id')->constrained('tipos_beneficios')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('beneficio_id')->constrained('beneficios')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('persona_id')->constrained('personas')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });
