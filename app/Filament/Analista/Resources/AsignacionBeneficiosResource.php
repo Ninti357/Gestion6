@@ -25,101 +25,33 @@ class AsignacionBeneficiosResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('tipo_identificacion_id')
-                    ->relationship('tipoIdentificacion', 'id')
-                    ->required(),
-                Forms\Components\TextInput::make('cedula')
+                Forms\Components\TextInput::make('persona_id')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('primer_nombre')
+                    ->numeric(),
+                Forms\Components\TextInput::make('tipo_beneficio_id')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('segundo_nombre')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('primer_apellido')
+                    ->numeric(),
+                Forms\Components\TextInput::make('beneficio_id')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('segundo_apellido')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('telefono')
-                    ->tel()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('celular')
-                    ->maxLength(255),
-                Forms\Components\Select::make('genero_id')
-                    ->relationship('genero', 'id')
-                    ->required(),
-                Forms\Components\DatePicker::make('fecha_nacimiento')
-                    ->required(),
-                Forms\Components\Select::make('pueblo_id')
-                    ->relationship('pueblo', 'id')
-                    ->required(),
-                Forms\Components\Select::make('estado_civil_id')
-                    ->relationship('estadoCivil', 'id')
-                    ->required(),
-                Forms\Components\Select::make('estado_id')
-                    ->relationship('estado', 'id')
-                    ->required(),
-                Forms\Components\Select::make('municipio_id')
-                    ->relationship('municipio', 'id')
-                    ->required(),
-                Forms\Components\Select::make('parroquia_id')
-                    ->relationship('parroquia', 'id')
-                    ->required(),
-                Forms\Components\Select::make('comunidad_id')
-                    ->relationship('comunidad', 'id')
-                    ->required(),
+                    ->numeric(),
             ]);
     }
+
+
+
+
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('tipoIdentificacion.id')
+                Tables\Columns\TextColumn::make('persona_id')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('cedula')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('primer_nombre')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('segundo_nombre')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('primer_apellido')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('segundo_apellido')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('email')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('telefono')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('celular')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('genero.id')
+                Tables\Columns\TextColumn::make('tipo_beneficio_id')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('fecha_nacimiento')
-                    ->date()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('pueblo.id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('estadoCivil.id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('estado.id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('municipio.id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('parroquia.id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('comunidad.id')
+                Tables\Columns\TextColumn::make('beneficio_id')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')

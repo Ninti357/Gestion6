@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Filament\Tables;
 use App\Models\Persona;
 use Filament\Forms\Get;
@@ -54,6 +55,7 @@ class PersonaResource extends Resource
                             ->label('Cédula'),
                         Forms\Components\TextInput::make('primer_nombre')
                             ->required()
+                            ->rules('alpha')
                             ->autocapitalize()
                             ->minLength(2)
                             ->maxLength(20),

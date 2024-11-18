@@ -5,13 +5,23 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\AsignacionBeneficiosResource\Pages;
 use App\Filament\Resources\AsignacionBeneficiosResource\RelationManagers;
 use App\Models\AsignacionBeneficios;
+use App\Models\Beneficio;
+use App\Models\TipoBeneficio;
+use App\Models\Persona;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Fieldset;
+use Illuminate\Support\Collection;
 use Filament\Resources\Resource;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class AsignacionBeneficiosResource extends Resource
 {
@@ -24,108 +34,53 @@ class AsignacionBeneficiosResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('tipo_identificacion_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('cedula')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('primer_nombre')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('segundo_nombre')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('primer_apellido')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('segundo_apellido')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('telefono')
-                    ->tel()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('celular')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('genero_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\DatePicker::make('fecha_nacimiento')
-                    ->required(),
-                Forms\Components\TextInput::make('pueblo_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('estado_civil_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('estado_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('municipio_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('parroquia_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('comunidad_id')
-                    ->required()
-                    ->numeric(),
-            ]);
+        ->schema( [
+            Forms\Components\Select::make('tipo_beneficio_id')
+                ->label('Tipo de beneficio')
+                ->relationship('tipoBeneficio', 'tipo_beneficio')
+                ->searchable()
+                ->preload()
+                ->live()
+                ->required(),
+
+            Forms\Components\Select::make('beneficio')
+                ->label('Beneficio')
+                ->relationship('beneficio', 'beneficio')
+                ->searchable()
+                ->preload()
+                ->live()
+                ->required(),
+
+                Forms\Components\Select::make('persona_id')
+                ->label('Persona')
+                ->relationship('Persona', 'primer_nombre')
+                ->searchable()
+                ->preload()
+                ->live()
+                ->required(),
+                Forms\Components\TextInput::make('Cantidad')
+                ->mask('999')
+                ->numeric()
+                ->maxLength(3),
+        ]);
+
     }
-
-
-
-
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('tipo_identificacion_id')
+                Tables\Columns\TextColumn::make('tipo_beneficio.tipo_beneficio')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('cedula')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('primer_nombre')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('segundo_nombre')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('primer_apellido')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('segundo_apellido')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('email')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('telefono')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('celular')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('genero_id')
+                Tables\Columns\TextColumn::make('beneficio.beneficio')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('fecha_nacimiento')
-                    ->date()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('pueblo_id')
+                Tables\Columns\TextColumn::make('persona.persona')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('estado_civil_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('estado_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('municipio_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('parroquia_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('comunidad_id')
-                    ->numeric()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('Cantidad')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -144,15 +99,15 @@ class AsignacionBeneficiosResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\ForceDeleteAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()->label('inhabilitar'),
                 Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+                Tables\Actions\DeleteBulkAction::make(),
+                ExportBulkAction::make(),
+                Tables\Actions\RestoreBulkAction::make(),
+
                 ]),
             ]);
     }

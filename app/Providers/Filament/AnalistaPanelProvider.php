@@ -27,7 +27,7 @@ class AnalistaPanelProvider extends PanelProvider
             ->path('analista')
             ->login()
             ->colors([
-                'primary' => Color::Sky,
+                'primary' => Color::Cyan,
             ])
             ->discoverResources(in: app_path('Filament/Analista/Resources'), for: 'App\\Filament\\Analista\\Resources')
             ->discoverPages(in: app_path('Filament/Analista/Pages'), for: 'App\\Filament\\Analista\\Pages')
