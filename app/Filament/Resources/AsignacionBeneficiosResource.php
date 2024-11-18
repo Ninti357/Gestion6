@@ -37,42 +37,25 @@ class AsignacionBeneficiosResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('tipo_beneficio_id')
-                ->label('Tipo de beneficio')
-                ->relationship('tipoBeneficio', 'tipo_beneficio')
-                ->searchable()
-                ->preload()
-                ->live()
-                ->afterStateUpdated(function (Set $set) {
-                    $set('beneficio_id', null);
-                })
-                ->required(),
+                    ->label('Tipo de beneficio')
+                    ->relationship('tipoBeneficio', 'tipo_beneficio')
+                    ->searchable()
+                    ->preload()
+                    ->live()
+                    ->afterStateUpdated(function (Set $set) {
+                        $set('beneficio_id', null);
+                    })
+                    ->required(),
 
-            Forms\Components\Select::make('beneficio_id')
-                ->label('Beneficio')
-                ->options(fn(Get $get): Collection => Beneficio::query()
-                    ->where('tipo_beneficio_id', $get('tipo_beneficio_id'))
-                    ->pluck('beneficio', 'id'))
-                ->searchable()
-                ->preload()
-                ->live()
-                ->required(),
-
-
-                // Forms\Components\Select::make('tipo_beneficio_id')
-                //     ->label('Tipo de beneficio')
-                //     ->relationship('tipoBeneficio', 'tipo_beneficio')
-                //     ->searchable()
-                //     ->preload()
-                //     ->live()
-                //     ->required(),
-
-                // Forms\Components\Select::make('beneficio_id')
-                //     ->label('Beneficio')
-                //     ->relationship('beneficio', 'beneficio')
-                //     ->searchable()
-                //     ->preload()
-                //     ->live()
-                //     ->required(),
+                Forms\Components\Select::make('beneficio_id')
+                    ->label('Beneficio')
+                    ->options(fn(Get $get): Collection => Beneficio::query()
+                        ->where('tipo_beneficio_id', $get('tipo_beneficio_id'))
+                        ->pluck('beneficio', 'id'))
+                    ->searchable()
+                    ->preload()
+                    ->live()
+                    ->required(),
 
                 Forms\Components\Select::make('persona_id')
                     ->label('Persona')
@@ -119,7 +102,7 @@ class AsignacionBeneficiosResource extends Resource
                     ->searchable()
                     ->sortable(),
 
-                    Tables\Columns\TextColumn::make('tipoBeneficio.tipo_beneficio')
+                Tables\Columns\TextColumn::make('tipoBeneficio.tipo_beneficio')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('beneficio.beneficio')
@@ -144,6 +127,11 @@ class AsignacionBeneficiosResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
+                Tables\Actions\Action::make('pdf')
+                ->label('PDF')
+                // ->icon('heroicon-o-document-download')
+                ->url(fn (AsignacionBeneficios $record) => route('pdf.asignacion', $record))
+                ->openUrlInNewTab(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make()->label('inhabilitar'),
                 Tables\Actions\RestoreAction::make(),
