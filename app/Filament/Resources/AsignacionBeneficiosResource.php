@@ -36,7 +36,7 @@ class AsignacionBeneficiosResource extends Resource
         return $form
         ->schema( [
             Forms\Components\Select::make('tipo_beneficio_id')
-                ->label('Tipo de identificación')
+                ->label('Tipo de beneficio')
                 ->relationship('tipoBeneficio', 'tipo_beneficio')
                 ->searchable()
                 ->preload()
@@ -58,7 +58,10 @@ class AsignacionBeneficiosResource extends Resource
                 ->preload()
                 ->live()
                 ->required(),
-
+                Forms\Components\TextInput::make('Cantidad')
+                ->mask('999')
+                ->numeric()
+                ->maxLength(3),
         ]);
 
     }
@@ -76,6 +79,8 @@ class AsignacionBeneficiosResource extends Resource
                 Tables\Columns\TextColumn::make('persona.persona')
                     ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('Cantidad')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

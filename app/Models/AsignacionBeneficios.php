@@ -18,6 +18,7 @@ class AsignacionBeneficios extends Model
         'tipo_beneficio_id',
         'beneficio_id',
         'persona_id',
+        'Cantidad',
     ];
     public function tipoBeneficio(): BelongsTo
     {

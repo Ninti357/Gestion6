@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('tipo_beneficio_id')->constrained('tipos_beneficios')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('beneficio_id')->constrained('beneficios')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('persona_id')->constrained('personas')->onUpdate('cascade')->onDelete('cascade');
+            $table->string('Cantidad');
             $table->timestamps();
             $table->softDeletes();
         });
