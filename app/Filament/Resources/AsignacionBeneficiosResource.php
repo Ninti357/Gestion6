@@ -53,6 +53,7 @@ class AsignacionBeneficiosResource extends Resource
                     ->required(),
 
                 Forms\Components\Select::make('persona_id')
+                ->label('Persona')
                 ->searchable()
                 ->getSearchResultsUsing(fn (string $search) => Persona::select([
                     DB::raw("CONCAT(primer_nombre, ' ', primer_apellido) as full_name"),
@@ -78,14 +79,15 @@ class AsignacionBeneficiosResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('tipo_beneficio.tipo_beneficio')
+                Tables\Columns\TextColumn::make('tipoBeneficio.tipo_beneficio')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('beneficio.beneficio')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('persona.persona')
+                Tables\Columns\TextColumn::make('persona.persona_id')
                     ->numeric()
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('Cantidad')
                     ->searchable(),
