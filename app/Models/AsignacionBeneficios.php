@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Persona;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,11 +16,11 @@ class AsignacionBeneficios extends Model
 
     protected $table = 'asignacion_beneficios';
     protected $fillable = [
-
         'tipo_beneficio_id',
         'beneficio_id',
         'persona_id',
-        'Cantidad',
+        'cantidad',
+        'observaciones'
     ];
     public function tipoBeneficio(): BelongsTo
     {
@@ -32,6 +34,7 @@ class AsignacionBeneficios extends Model
     {
         return $this->belongsTo(Persona::class);
     }
+
 
 
 }

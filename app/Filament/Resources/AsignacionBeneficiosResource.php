@@ -37,41 +37,64 @@ class AsignacionBeneficiosResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('tipo_beneficio_id')
-                    ->label('Tipo de beneficio')
-                    ->relationship('tipoBeneficio', 'tipo_beneficio')
-                    ->searchable()
-                    ->preload()
-                    ->live()
-                    ->required(),
+                ->label('Tipo de beneficio')
+                ->relationship('tipoBeneficio', 'tipo_beneficio')
+                ->searchable()
+                ->preload()
+                ->live()
+                ->afterStateUpdated(function (Set $set) {
+                    $set('beneficio_id', null);
+                })
+                ->required(),
 
-                Forms\Components\Select::make('beneficio_id')
-                    ->label('Beneficio')
-                    ->relationship('beneficio', 'beneficio')
-                    ->searchable()
-                    ->preload()
-                    ->live()
-                    ->required(),
+            Forms\Components\Select::make('beneficio_id')
+                ->label('Beneficio')
+                ->options(fn(Get $get): Collection => Beneficio::query()
+                    ->where('tipo_beneficio_id', $get('tipo_beneficio_id'))
+                    ->pluck('beneficio', 'id'))
+                ->searchable()
+                ->preload()
+                ->live()
+                ->required(),
+
+
+                // Forms\Components\Select::make('tipo_beneficio_id')
+                //     ->label('Tipo de beneficio')
+                //     ->relationship('tipoBeneficio', 'tipo_beneficio')
+                //     ->searchable()
+                //     ->preload()
+                //     ->live()
+                //     ->required(),
+
+                // Forms\Components\Select::make('beneficio_id')
+                //     ->label('Beneficio')
+                //     ->relationship('beneficio', 'beneficio')
+                //     ->searchable()
+                //     ->preload()
+                //     ->live()
+                //     ->required(),
 
                 Forms\Components\Select::make('persona_id')
-                ->label('Persona')
-                ->searchable()
-                ->getSearchResultsUsing(fn (string $search) => Persona::select([
-                    DB::raw("CONCAT(primer_nombre, ' ', primer_apellido) as full_name"),
-                    'id',
-                ])
-                ->where('cedula', 'like', "%{$search}%")->limit(50)->pluck('full_name', 'id'))
-                ->getOptionLabelUsing(fn ($value): ?string => Persona::find($value)?->name),
-                    // ->label('Persona')
-                    // ->relationship('Persona', 'primer_nombre')
-                    // ->searchable()
-                    // ->preload()
-                    // ->live()
-                    // ->required(),
+                    ->label('Persona')
+                    ->searchable()
+                    ->getSearchResultsUsing(fn(string $search) => Persona::select([
+                        DB::raw("CONCAT(primer_nombre, ' ', primer_apellido, ' ', cedula) as full_name"),
+                        'id',
+                    ])
+                        ->where('cedula', '=', "{$search}")->limit(50)->pluck('full_name', 'id'))
+                    ->getOptionLabelUsing(fn($value): ?string => Persona::find($value)?->name)
+                    ->required(),
 
-                Forms\Components\TextInput::make('Cantidad')
+                Forms\Components\TextInput::make('cantidad')
+                    ->required()
                     ->mask('999')
                     ->numeric()
                     ->maxLength(3),
+
+                Forms\Components\TextArea::make('observaciones')
+                    ->maxLength(255)
+                    ->columnSpan('full'),
+
             ]);
     }
 
@@ -79,17 +102,30 @@ class AsignacionBeneficiosResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('tipoBeneficio.tipo_beneficio')
+
+                Tables\Columns\TextColumn::make('persona.cedula')
+                    ->label('Cédula')
+                    ->numeric()
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('persona.primer_nombre')
+                    ->label('Nombre')
+                    ->numeric()
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('persona.primer_apellido')
+                    ->label('Apellido')
+                    ->numeric()
+                    ->searchable()
+                    ->sortable(),
+
+                    Tables\Columns\TextColumn::make('tipoBeneficio.tipo_beneficio')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('beneficio.beneficio')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('persona.persona_id')
-                    ->numeric()
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('Cantidad')
+                Tables\Columns\TextColumn::make('cantidad')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
