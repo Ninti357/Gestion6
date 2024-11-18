@@ -2,26 +2,27 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\AsignacionBeneficiosResource\Pages;
-use App\Filament\Resources\AsignacionBeneficiosResource\RelationManagers;
-use App\Models\AsignacionBeneficios;
-use App\Models\Beneficio;
-use App\Models\TipoBeneficio;
+use Filament\Forms;
+use Filament\Tables;
 use App\Models\Persona;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
-use Filament\Forms;
 use Filament\Forms\Form;
+use App\Models\Beneficio;
+use Filament\Tables\Table;
+use App\Models\TipoBeneficio;
+use Filament\Resources\Resource;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use App\Models\AsignacionBeneficios;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Fieldset;
-use Illuminate\Support\Collection;
-use Filament\Resources\Resource;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Filament\Tables;
-use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+use App\Filament\Resources\AsignacionBeneficiosResource\Pages;
+use App\Filament\Resources\AsignacionBeneficiosResource\RelationManagers;
 
 class AsignacionBeneficiosResource extends Resource
 {
@@ -34,36 +35,43 @@ class AsignacionBeneficiosResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-        ->schema( [
-            Forms\Components\Select::make('tipo_beneficio_id')
-                ->label('Tipo de beneficio')
-                ->relationship('tipoBeneficio', 'tipo_beneficio')
-                ->searchable()
-                ->preload()
-                ->live()
-                ->required(),
+            ->schema([
+                Forms\Components\Select::make('tipo_beneficio_id')
+                    ->label('Tipo de beneficio')
+                    ->relationship('tipoBeneficio', 'tipo_beneficio')
+                    ->searchable()
+                    ->preload()
+                    ->live()
+                    ->required(),
 
-            Forms\Components\Select::make('beneficio')
-                ->label('Beneficio')
-                ->relationship('beneficio', 'beneficio')
-                ->searchable()
-                ->preload()
-                ->live()
-                ->required(),
+                Forms\Components\Select::make('beneficio_id')
+                    ->label('Beneficio')
+                    ->relationship('beneficio', 'beneficio')
+                    ->searchable()
+                    ->preload()
+                    ->live()
+                    ->required(),
 
                 Forms\Components\Select::make('persona_id')
-                ->label('Persona')
-                ->relationship('Persona', 'primer_nombre')
                 ->searchable()
-                ->preload()
-                ->live()
-                ->required(),
-                Forms\Components\TextInput::make('Cantidad')
-                ->mask('999')
-                ->numeric()
-                ->maxLength(3),
-        ]);
+                ->getSearchResultsUsing(fn (string $search) => Persona::select([
+                    DB::raw("CONCAT(primer_nombre, ' ', primer_apellido) as full_name"),
+                    'id',
+                ])
+                ->where('cedula', 'like', "%{$search}%")->limit(50)->pluck('full_name', 'id'))
+                ->getOptionLabelUsing(fn ($value): ?string => Persona::find($value)?->name),
+                    // ->label('Persona')
+                    // ->relationship('Persona', 'primer_nombre')
+                    // ->searchable()
+                    // ->preload()
+                    // ->live()
+                    // ->required(),
 
+                Forms\Components\TextInput::make('Cantidad')
+                    ->mask('999')
+                    ->numeric()
+                    ->maxLength(3),
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -104,9 +112,9 @@ class AsignacionBeneficiosResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                Tables\Actions\DeleteBulkAction::make(),
-                ExportBulkAction::make(),
-                Tables\Actions\RestoreBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make(),
+                    ExportBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make(),
 
                 ]),
             ]);
