@@ -155,8 +155,7 @@ class PersonaResource extends Resource
                                 ->pluck('comunidad', 'id'))
                             ->searchable()
                             ->preload()
-                            ->live()
-                            ->required(),
+                            ->live(),
                     ]),
             ]);
     }
@@ -165,7 +164,7 @@ class PersonaResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('tipo_identificacion')
+                Tables\Columns\TextColumn::make('tipoIdentificacion.tipo_identificacion')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('cedula')
@@ -194,7 +193,7 @@ class PersonaResource extends Resource
                 Tables\Columns\TextColumn::make('pueblo.pueblo')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('estado_civil.estado_civil')
+                Tables\Columns\TextColumn::make('estadoCivil.estado_civil')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('comunidad.comunidad')
