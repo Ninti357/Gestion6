@@ -52,8 +52,8 @@
             text-align: center;
             /* color: rgb(255, 99, 132),  rosa*/
             /* color: rgb(54, 162, 235) azul, */
-                /* color: rgb(255, 206, 86) amarillo, */
-                color: rgb(99, 255, 125),
+            /* color: rgb(255, 206, 86) amarillo, */
+            color: rgb(99, 255, 125),
         }
     </style>
 

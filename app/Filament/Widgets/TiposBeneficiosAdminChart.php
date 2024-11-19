@@ -8,7 +8,7 @@ use App\Models\AsignacionBeneficios;
 
 class TiposBeneficiosAdminChart extends ChartWidget
 {
-    protected static ?string $heading = 'Chart';
+    protected static ?string $heading = 'Tipos de Beneficios Otorgados';
 
     protected function getData(): array
     {

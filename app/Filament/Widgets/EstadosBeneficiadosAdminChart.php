@@ -6,27 +6,28 @@ use App\Models\Persona;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\DB;
 
-class PersonasPueblosAdminChart extends ChartWidget
+class EstadosBeneficiadosAdminChart extends ChartWidget
 {
-    protected static ?string $heading = 'Pueblos';
+    protected static ?string $heading = 'Estados';
 
     protected function getData(): array
     {
-        $pueblos = Persona::select(DB::raw('count(*) as count'), 'pueblo_id', 'pueblos.pueblo')
-        ->join('pueblos', 'pueblos.id', '=', 'personas.pueblo_id')
-        ->groupBy('pueblo_id', 'pueblos.pueblo', 'pueblos.id')
-        ->orderBy('pueblos.id', 'asc')
+        $estados = Persona::select(DB::raw('count(*) as count'), 'estado_id', 'estados.estado')
+        ->join('estados', 'estados.id', '=', 'personas.estado_id')
+        ->groupBy('estado_id', 'estados.estado', 'estados.id')
+        ->orderBy('estados.id', 'asc')
         ->get();
+
         return [
             'datasets' => [
                 [
             'label' => 'Pueblos',
-                    'data' => $pueblos->pluck('count'),
+                    'data' => $estados->pluck('count'),
                     'backgroundColor' => '#36A2EB',
                     'borderColor' => '#9BD0F5',
                 ],
             ],
-            'labels' =>  $pueblos->pluck('pueblo'),
+            'labels' =>  $estados->pluck('estado'),
         ];
     }
 

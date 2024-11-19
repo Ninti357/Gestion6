@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class GenerosAdminChart extends ChartWidget
 {
-    protected static ?string $heading = 'Chart';
+    protected static ?string $heading = 'Género';
 
     protected function getData(): array
     {
