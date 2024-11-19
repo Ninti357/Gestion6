@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class AsignacionBeneficios extends Model
 {
 
-    Use SoftDeletes;
+    Use SoftDeletes, HasFactory;
 
     protected $table = 'asignacion_beneficios';
     protected $fillable = [

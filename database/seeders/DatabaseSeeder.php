@@ -2,11 +2,13 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use App\Models\Pueblo;
 use App\Models\Status;
-use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Persona;
 use Illuminate\Database\Seeder;
+use App\Models\AsignacionBeneficios;
 
 class DatabaseSeeder extends Seeder
 {
@@ -29,6 +31,9 @@ class DatabaseSeeder extends Seeder
             BeneficiosTableSeeder::class,
             TiposIdentificacionesTableSeeder::class,
         ]);
+
+        Persona::factory(2000)->create();
+        AsignacionBeneficios::factory(2000)->create();
 
         // User::factory()->create([
         //     'name' => 'Test User',
