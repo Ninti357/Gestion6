@@ -5,61 +5,60 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Beneficio</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
 </head>
 
 <body>
-
-    [Nombre de la Empresa] [Dirección de la Empresa] [Ciudad, Estado, Código Postal] [Fecha]
-    <br>
-    [Nombre del Beneficiario] [Dirección del Beneficiario] [Ciudad, Estado, Código Postal]
-    <br>
-    Estimado/a {{ $beneficio->persona->primer_nombre }} {{ $beneficio->persona->primer_apellido }}:
-    <br>
-    Nos complace informarle que usted ha sido seleccionado para recibir el beneficio de [describir el beneficio] como
-    parte de nuestro programa de [nombre del programa]. Este beneficio ha sido otorgado en reconocimiento a su [motivo
-    del reconocimiento, como desempeño, lealtad, etc.].
-    <br>
-
-    Detalles del Beneficio:
-    <br>
-    Tipo de Beneficio: [Descripción del beneficio]
-    <br>
-    Valor del Beneficio: [Valor monetario, si aplica]
-    <br>
-    Fecha de Entrega: [Fecha de entrega]
-    <br>
-    Duración del Beneficio: [Duración, si aplica]
-    <br>
-    Para reclamar su beneficio, por favor contacte a [nombre y cargo de la persona de contacto] al [número de teléfono]
-    o por correo electrónico a [correo electrónico] antes del [fecha límite para reclamar el beneficio].
-    <br>
-    Agradecemos su dedicación y compromiso con [Nombre de la Empresa] y esperamos que disfrute de este beneficio.
-    <br>
-    Atentamente,
-    <br>
-    [Firma]
-
-    [Nombre del Remitente] [Cargo del Remitente] [Correo Electrónico del Remitente] [Número de Teléfono del Remitente]
-
-    <div class="title m-b-md">
-        {!! QrCode::size(300)->generate('www.nigmacode.com') !!}
-    </div>
-
     <style>
-        .title {
-            text-align: center;
-            /* color: rgb(255, 99, 132),  rosa*/
-            /* color: rgb(54, 162, 235) azul, */
-            /* color: rgb(255, 206, 86) amarillo, */
-            color: rgb(99, 255, 125),
-        }
+
+        .right-align { float: right; margin: 10px; }
+        .center-align { display: block; margin-left: auto; margin-right: auto; }
+        .custom-hr { border:200px; height: 1px; background: black; margin: center; width: 500px; }
+        .center-text { text-align: center; }
     </style>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script>
+    <header>
+        <img src="{{ asset('img/logo1.jpg') }}" alt="" style="max-height: 90px; width: auto; margin: auto">
+    </header>
+
+
+    <p style="font-family: Arial, Helvetica, sans-serif; text-align: center; margin-top: 130px">
+        El Ministerio del Poder Popular para los Pueblos Indígenas por medio de la presente hace<br>
+        constar la entrega de <b>{{ $beneficio->cantidad }} {{ $beneficio->beneficio->beneficio }} </b> al ciudadano
+        <b>{{ $beneficio->persona->primer_nombre }}
+            {{ $beneficio->persona->primer_apellido }}</b>, portador de la C.I
+        <b>{{ $beneficio->persona->cedula }}</b>.<br>
+        El/la beneficiario/a cumple con los criterios de elegibilidad establecidos y ha seguido todos<br>
+        los procedimientos requeridos para la obtención de este beneficio. Esta constancia se<br>
+        expide a solicitud del interesado/a para los fines que estime conveniente.
+
+        <br><br><br>
+
+        Sin otro particular, se expide la presente en Caracas, a los {{ $beneficio->created_at->format('d') }} días del mes
+        de {{ $beneficio->created_at->format('M') }} del año {{ $beneficio->created_at->format('Y') }}.<br>
+        Atentamente:<br>
+    </p>
+
+
+
+
+        <div style="text-align: center; margin-top: 150px">
+            {!! QrCode::size(300)->generate(url('/')) !!}
+        </div>
+
+        <hr class="custom-hr">
+    <p style="text-align: center; font-family: Arial, Helvetica, sans-serif;">
+
+        <b>Ing. Deifer Garantón</b><br>
+        Director(a) General de la Oficina de<br>
+        Tecnologías de la Información y la Comunicación<br>
+        Gaceta Oficial N° 42.363 de Fecha 26/04/2022<br>
+        Resolución N° 030 de fecha 17/03/2022<br>
+
+    </p>
+
+
+
 </body>
 
 </html>
