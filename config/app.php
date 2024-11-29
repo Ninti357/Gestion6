@@ -123,4 +123,6 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'geoUrl' => env('API_GEO', ''),
+
 ];

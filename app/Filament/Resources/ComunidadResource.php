@@ -13,11 +13,13 @@ use App\Models\Parroquia;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Database\Eloquent\Builder;
+use App\Http\Controllers\APIGeoController;
 use App\Filament\Resources\ComunidadResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\ComunidadResource\RelationManagers;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+use App\Filament\Resources\ComunidadResource\RelationManagers;
 
 class ComunidadResource extends Resource
 {
@@ -31,10 +33,16 @@ class ComunidadResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $estados = new APIGeoController();
+        $arrayEstados = [];
+        foreach ($estados->estados() as $estado) {
+            $arrayEstados[$estado['id']] = $estado['estado'];
+        }
+        dd($estados->municipios());
         return $form
             ->schema([
                 Forms\Components\Select::make('estado_id')
-                    ->relationship('estado', 'estado')
+                    ->options($arrayEstados)
                     ->searchable()
                     ->preload()
                     ->live()
@@ -102,14 +110,14 @@ class ComunidadResource extends Resource
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
                 Tables\Filters\SelectFilter::make('Estado')
-                ->relationship('estado', 'estado')
-                ->multiple(),
+                    ->relationship('estado', 'estado')
+                    ->multiple(),
                 Tables\Filters\SelectFilter::make('Municipio')
-                ->relationship('municipio', 'municipio')
-                ->multiple(),
+                    ->relationship('municipio', 'municipio')
+                    ->multiple(),
                 Tables\Filters\SelectFilter::make('Parroquia')
-                ->relationship('parroquia', 'parroquia')
-                ->multiple(),
+                    ->relationship('parroquia', 'parroquia')
+                    ->multiple(),
 
             ])
             ->actions([
