@@ -22,6 +22,10 @@ class TipoBeneficioResource extends Resource
     protected static ?string $label = 'Tipos de beneficios';
     protected static ?string $navigationIcon = 'heroicon-s-squares-2x2';
 
+    public static function getNavigationBadge(): ?string
+    {
+            return static::getModel()::count();
+            }
 
     public static function form(Form $form): Form
     {
