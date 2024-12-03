@@ -16,7 +16,7 @@ class APIGeoController extends Controller
     {
         $this->geoUrl = config('app.geoUrl');
         $this->estados = Http::get($this->geoUrl.'/estados')->json();
-        $this->municipios = Http::get($this->geoUrl.'/municipios')->json();
+        // $this->municipios = Http::get($this->geoUrl.'/municipios')->json();
     }
     public function estados()
     {
