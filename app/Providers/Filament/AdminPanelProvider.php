@@ -6,6 +6,7 @@ namespace App\Providers\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\UserMenuItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -24,6 +25,7 @@ use HasExtraSidebarAttributes;
 use HasExtraTopbarAttributes;
 
 use BezhanSalleh\PanelSwitch\PanelSwitch;
+use Filament\Navigation\MenuItem;
 
 PanelSwitch::configureUsing(function (PanelSwitch $panelSwitch) {
     $panelSwitch->modalWidth('sm');
@@ -45,6 +47,13 @@ class AdminPanelProvider extends PanelProvider
     {
 
         return $panel
+
+            ->UserMenuItems([
+
+                'logout' => MenuItem::make()->label('Cerrar sesión')
+            ])
+
+            ->sidebarCollapsibleOnDesktop()
             ->default()
             ->id('admin')
             ->path('admin')

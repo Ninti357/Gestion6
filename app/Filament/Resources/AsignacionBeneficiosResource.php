@@ -24,6 +24,7 @@ use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use App\Filament\Resources\AsignacionBeneficiosResource\Pages;
 use App\Filament\Resources\AsignacionBeneficiosResource\RelationManagers;
 
+
 class AsignacionBeneficiosResource extends Resource
 {
     protected static ?string $model = AsignacionBeneficios::class;
@@ -31,6 +32,7 @@ class AsignacionBeneficiosResource extends Resource
     protected static ?string $navigationLabel = 'Asignación de beneficios';
 
     protected static ?string $navigationIcon = 'heroicon-s-gift';
+
 
     public static function form(Form $form): Form
     {
@@ -111,14 +113,17 @@ class AsignacionBeneficiosResource extends Resource
                 Tables\Columns\TextColumn::make('cantidad')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Fecha de asignación')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Fecha de actualización')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('deleted_at')
+                    ->label('Fecha de inhabilitación')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
